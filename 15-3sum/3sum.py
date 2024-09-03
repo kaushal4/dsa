@@ -15,10 +15,9 @@ class Solution:
                 sum = nums[first] + nums[second] + nums[third]
                 if sum == 0:
                     sol.append((nums[first], nums[second], nums[third]))
-                    cur_second = second
-                    cur_third = third
                     # condition - 2 to avoid duplicates
-                    while second < n-1 and nums[cur_second] == nums[second]:
+                    second += 1
+                    while second < n-1 and nums[second] == nums[second - 1]:
                         second += 1
                 elif (sum < 0):
                     second += 1
