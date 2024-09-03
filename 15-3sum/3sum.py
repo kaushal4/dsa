@@ -20,9 +20,6 @@ class Solution:
                     # condition - 2 to avoid duplicates
                     while second < n-1 and nums[cur_second] == nums[second]:
                         second += 1
-                    # condition - 2 to avoid duplicates
-                    while third > second and nums[cur_third] == nums[third]:
-                        third -= 1
                 elif (sum < 0):
                     second += 1
                 else:
