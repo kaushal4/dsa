@@ -9,10 +9,12 @@ class Solution:
         low = -1
         high = 0
         sol = n
-        if target > sum(nums):
-            return 0
+
         for i in range(0, n):
             nums[i] = nums[i] + self.getVal(nums, i -1)
+
+        if nums[n-1] < target:
+            return 0
         
         while high < n:
             subSum = self.getVal(nums, high) - self.getVal(nums, low)
