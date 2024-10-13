@@ -26,18 +26,15 @@ class Solution:
             # wait for some time if no task is ready
             cheapest = min(intervals.values())
             for key in intervals:
-                intervals[key] -= cheapest
-            sol += cheapest
+                intervals[key] = max(0, intervals[key] - cheapest - 1)
+            sol += max(cheapest, 1)
 
             # select task to do
             task_to_do = self.findMax(freqs=freqs, intervals=intervals) 
 
             # run the task
             freqs[task_to_do] -= 1
-            for key in intervals:
-                intervals[key] = max(0, intervals[key] - 1)
-            intervals[task_to_do] = n
-            sol += 1
+            intervals[task_to_do] = n+1
 
             # remove the currtly run element if it is fully processed 
             if freqs[task_to_do] == 0:
