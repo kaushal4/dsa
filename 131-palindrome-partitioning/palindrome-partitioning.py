@@ -1,15 +1,6 @@
 class Solution:
     def isPali(self, s:str) -> bool:
-        n = len(s)
-        low = floor((n-1)/2)
-        high = ceil((n-1)/2)
-        while low >=0 and high < n:
-            if s[low] == s[high]:
-                low -= 1
-                high += 1
-            else:
-                return False
-        return True
+        return s == s[::-1]
 
     def recur(self, s:str, index:int, cur_array:List[str]):
         if index >= len(s):
