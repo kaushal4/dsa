@@ -19,5 +19,4 @@ class Solution:
                 if j + nums[i] <= upper:
                     dp_copy[j + upper] += dp[j+nums[i] + upper]
             dp = dp_copy
-        print(dp)
         return 0 if dp[target + upper] == -1 else dp[target + upper]
