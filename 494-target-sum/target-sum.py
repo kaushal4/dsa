@@ -8,15 +8,21 @@ class Solution:
             return 0
         
         # check out the indexing
-        dp = [0] * (upper - lower + 1)
-        dp[0 + upper] = 1
+        dp = {}
+        dp[0] = 1
 
         for i in range(0, len(nums)):
-            dp_copy = [0] * (upper - lower + 1)
+            dp_copy = {}
             for j in range(lower, upper + 1):
                 if j - nums[i] >= lower:
-                    dp_copy[j + upper] += dp[j-nums[i] + upper]
+                    if j-nums[i] in dp:
+                        if j not in dp_copy:
+                            dp_copy[j] = 0
+                        dp_copy[j] += dp[j-nums[i]]
                 if j + nums[i] <= upper:
-                    dp_copy[j + upper] += dp[j+nums[i] + upper]
+                    if j+nums[i] in dp:
+                        if j not in dp_copy:
+                            dp_copy[j] = 0
+                        dp_copy[j] += dp[j+nums[i]]
             dp = dp_copy
-        return 0 if dp[target + upper] == -1 else dp[target + upper]
+        return dp[target] if target in dp else 0
