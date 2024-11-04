@@ -8,15 +8,17 @@ class Solution:
         n = len(s)
         dp = [[0] * n for _ in range(n)]
 
-        for a in range(0, n):
+        for i in range(0,n):
+            dp[i][i] = 1
+
+        for a in range(1, n):
             j = a
             i = 0
             while( j < n ):
                 if s[i] == s[j]:
-                    score = 1 if i == j else 2
-                    dp[i][j] = max(dp[i][j], score + self.getDp(dp, i+1, j-1))
-                dp[i][j] = max(dp[i][j], self.getDp(dp, i, j-1))
-                dp[i][j] = max(dp[i][j], self.getDp(dp, i+1, j))
+                    dp[i][j] = max(dp[i][j], 2 + dp[i+1][j-1])
+                dp[i][j] = max(dp[i][j], dp[i+1][j])
+                dp[i][j] = max(dp[i][j], dp[i][j-1])
                 i += 1
                 j += 1
 
