@@ -14,13 +14,10 @@ class Solution:
             while( j < n ):
                 if s[i] == s[j]:
                     score = 1 if i == j else 2
-                    if dp[i][j] < (score + self.getDp(dp, i+1, j-1)):
-                        dp[i][j] = score + self.getDp(dp, i+1, j-1)
-
-                if dp[i][j] < self.getDp(dp, i+1, j):
-                    dp[i][j] = max(dp[i][j], self.getDp(dp, i+1, j))
-                if dp[i][j] < self.getDp(dp, i, j - 1):
-                    dp[i][j] = max(dp[i][j], self.getDp(dp, i, j-1))
+                    dp[i][j] = max(dp[i][j], score + self.getDp(dp, i+1, j-1))
+                dp[i][j] = max(dp[i][j], self.getDp(dp, i, j-1))
+                dp[i][j] = max(dp[i][j], self.getDp(dp, i+1, j))
                 i += 1
                 j += 1
+
         return dp[0][n-1]
