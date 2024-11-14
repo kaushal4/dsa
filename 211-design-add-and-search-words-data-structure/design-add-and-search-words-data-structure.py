@@ -1,48 +1,37 @@
 class TrieNode:
-    def __init__(self, val):
-        self.children:Set[TrieNode] = set()
-        self.val = val
+    def __init__(self):
+        self.children:Dict[TrieNode] = dict()
         self.isLast = False
 
 class WordDictionary:
 
     def __init__(self):
-        self.root = TrieNode(-1)
+        self.root = TrieNode()
 
     def addWord(self, word: str) -> None:
         node = self.root
         for c in word:
-            found:bool = False
-            for child in node.children:
-                if child.val == c:
-                    found = True
-                    node = child
-                    break
-            if not found:
-                new_node = TrieNode(c)
-                node.children.add(new_node)
-                node = new_node
+            if c not in node.children:
+                node.children[c] = TrieNode()
+            node = node.children[c]
         node.isLast = True
 
     def search_word(self,node:TrieNode, word, index):
         found:bool = False
         if word[index] == '.':
             if index == len(word) - 1:
-                for child in node.children:
-                    if child.isLast:
-                        return True
+                if any([v.isLast for v in node.children.values()]):
+                    return True
                 return False
-            for child in node.children:
+            for child in node.children.values():
                 found = found or self.search_word(child, word, index+1)
         else:
             if index == len(word) - 1:
-                for child in node.children:
-                    if child.val == word[index] and child.isLast:
-                        return True
+                if word[index] in node.children and node.children[word[index]].isLast:
+                    return True
             else:
-                for child in node.children:
-                    if child.val == word[index]:
-                        found = self.search_word(child, word, index+1)
+                if word[index] in node.children:
+                    return self.search_word(node.children[word[index]], word, index+1)
         return found
 
 
