@@ -1,5 +1,5 @@
 class Solution:
-    def findMin(self,distances:Dict[Tuple[int, int], int], visited:Set[Tuple[int, int]], heap:List[Tuple[int, Tuple[int, int]]]):
+    def findMin(self, visited:Set[Tuple[int, int]], heap:List[Tuple[int, Tuple[int, int]]]):
         min_value = heapq.heappop(heap)
         while min_value[1] in visited:
             min_value = heapq.heappop(heap)
@@ -18,7 +18,7 @@ class Solution:
         
         for _ in range(n):
             for _ in range(n):
-                min_cord = self.findMin(distances, visited, heap)
+                min_cord = self.findMin(visited, heap)
                 visited.add(min_cord)
                 if min_cord == (n-1, n-1):
                     return distances[min_cord]
