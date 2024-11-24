@@ -1,24 +1,15 @@
 class Solution:
-    def __init__(self) -> None:
-        self.mem = []
-
-    def topDown(self, coins: List[int], amount: int):
-        if amount == 0:
-            return 0
-
-        if self.mem[amount] != -2:
-            return self.mem[amount]
-
-        sol = sys.maxsize
-        for c in coins:
-            if amount - c >= 0:
-                val = self.topDown(coins, amount - c)
-                if val == -1:
-                     continue
-                sol = min(sol, 1 + self.topDown(coins, amount - c))
-        self.mem[amount] = sol if sol != sys.maxsize else -1
-        return self.mem[amount]
-
     def coinChange(self, coins: List[int], amount: int) -> int:
-        self.mem = [-2]*(amount + 1)
-        return self.topDown(coins, amount)
+        n = len(coins)
+        dp = [-1] * (amount + 1)
+        dp[0] = 0
+        for p in range(n):   
+            coin = coins[p]
+            for q in range(1, amount+1):
+                if q - coin >= 0 and dp[q - coin] != -1:
+                    dp[q] = min(dp[q], 1 + dp[q - coin]) if dp[q]!= -1 else 1 + dp[q - coin]
+            #print(dp)
+        return dp[amount]
+
+                    
+        
