@@ -41,8 +41,6 @@ class Solution:
         dist2 = self.getDist(adj2, k-1)
         dist1 = self.getDist(adj1, k)
         best = max(dist2)
-        print(dist1)
-        print(dist2)
         for i in range(len(dist1)):
             dist1[i] += best
         return dist1
