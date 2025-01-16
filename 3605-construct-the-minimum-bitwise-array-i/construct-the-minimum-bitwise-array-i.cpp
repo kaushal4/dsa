@@ -1,13 +1,24 @@
 class Solution {
 public:
     int minSol(int num) {
-        int sol = -1;
-        for(int i = num - 1; i >= 0; i--){
-            if ((i | i+1) == num) {
-                sol = i;
+        if (num == 2){
+            return -1;
+        }
+        short pos = 0;
+        int secondary = 0; 
+        while(num > 0) {
+            if((num & (1 << pos)) == (1 << pos)) {
+                secondary = secondary + (1 << pos);
+                num = num - (1 << pos);
+                pos += 1;
+            } else {
+                break;
             }
         }
-        return sol;
+        pos -= 1;
+        secondary = secondary - (1 << pos);
+        num = num + secondary;
+        return num;
     }
     vector<int> minBitwiseArray(vector<int>& nums) {
         int n = nums.size();
