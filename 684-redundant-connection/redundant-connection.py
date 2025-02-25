@@ -1,52 +1,48 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        adj = {}
+        # create adjacency list
+        adj = defaultdict(lambda: [])
         for edge in edges:
-            if edge[0] in adj:
-                adj[edge[0]].append(edge[1])
-            else:
-                adj[edge[0]] = []
-                adj[edge[0]].append(edge[1])
-            if edge[1] in adj:
-                adj[edge[1]].append(edge[0])
-            else:
-                adj[edge[1]] = []
-                adj[edge[1]].append(edge[0])
-        
-        stack = []
-        stack.append(1)
-        parent = {}
+            adj[edge[0]].append(edge[1])
+            adj[edge[1]].append(edge[0])
         visited = set()
-        parent[1] = -1
-        cycle_end = -1
-        cycle_start = -1
-        found:bool = False
 
-        while stack and not found:
-            node = stack.pop()
+         # Do DFS
+        def dfs(node: int, history: List[int], parent:int) -> (list[int], int):
+            print(history)
+            if node in visited:
+                return (history,  node)
             visited.add(node)
-            if node in adj:
-                for child in adj[node]:
-                    if parent[node] == child:
-                        continue
-                    if child in visited:
-                        cycle_start = node 
-                        cycle_end = child
-                        found = True
-                        break
-                    parent[child] = node
-                    stack.append(child)
-        cycle_edges = set()
-        cycle_edges.add((cycle_start, cycle_end))
-        cycle_edges.add((cycle_end, cycle_start))
-        cur_node = cycle_start
-        while(cur_node != cycle_end):
-            cycle_edges.add((cur_node, parent[cur_node]))
-            cycle_edges.add((parent[cur_node], cur_node))
-            cur_node = parent[cur_node]
+            starting_node = -1
+            history.append(node)
+            for child in adj[node]:
+                if child == parent: continue
+                (sol, starting_node) = dfs(child, history, node)
+                if starting_node != -1:
+                    return (sol, starting_node)
+            history.pop()
+            return ([], -1)
+
+        # trimmed history to where the loop node starts
+        s = 1
+        history, loop_start = dfs(s, [], -1)
+        start_pos = 0
+        for i in range(len(history)):
+            if history[i] == loop_start:
+                start_pos = i
+                break
+        history = history[start_pos:]
         
-        for edge in edges[::-1]:
-            if (edge[0], edge[1]) in cycle_edges:
-                return edge
-        
-        return (-1,-1)
+        loop_edges = set()
+        for i in range(len(history)-1):
+            loop_edges.add((history[i], history[i+1]))
+            loop_edges.add((history[i+1], history[i]))
+        loop_edges.add((history[0], history[-1]))
+        loop_edges.add((history[-1], history[0]))
+            
+        for i in range(len(edges)-1, -1, -1):
+            cur_edge = edges[i]
+            if (cur_edge[0], cur_edge[1]) in loop_edges:
+                return (cur_edge[0], cur_edge[1])
+        return -1
+
