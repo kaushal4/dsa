@@ -1,14 +1,21 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
+        # state:
+        # 1 = buying
+        # 2 = selling
+        # 3 = cooling down
         n = len(prices)
-        cooldown = 0
-        lowest_buy = - prices[0]
-        no_buy = 0
-        for i in range(1,n):
-            cooldown_new = max(lowest_buy + prices[i], no_buy)
-            lowest_buy_new = max(no_buy - prices[i], lowest_buy)
-            no_buy = max(cooldown, no_buy)
-            cooldown = cooldown_new
-            lowest_buy = lowest_buy_new
-        return max(cooldown, no_buy)
-        
+        @cache
+        def recur(index:int, state:int) -> int:
+            if index == n:
+                return 0
+            if state == 1:
+                sol = 0
+                sol = max(sol, - prices[index] + recur(index + 1, 2), recur(index + 1, 1))
+                return sol
+            if state == 2:
+                sol = 0
+                sol = max(sol,prices[index] + recur(index+1, 3), recur(index+1, 2))
+                return sol
+            return recur(index+1, 1)
+        return recur(0, 1)
