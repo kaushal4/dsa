@@ -1,6 +1,7 @@
 class Solution:
     def minSwaps(self, nums: List[int]) -> int:
         count_one = sum(nums)
+        if count_one == 0 : return 0
 
         for i in range(count_one):
             nums.append(nums[i])
@@ -14,6 +15,6 @@ class Solution:
             sol = min(count_one - sub_count, sol)
             high += 1
             if high < size: sub_count = sub_count + nums[high]
-            if low < size: sub_count -= nums[low]
+            sub_count -= nums[low]
             low += 1 
         return sol
