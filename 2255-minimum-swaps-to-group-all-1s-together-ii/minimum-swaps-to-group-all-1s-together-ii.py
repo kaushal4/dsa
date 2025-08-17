@@ -1,9 +1,8 @@
 class Solution:
     def minSwaps(self, nums: List[int]) -> int:
         count_one = sum(nums)
-        og_size = len(nums)
 
-        for i in range(og_size):
+        for i in range(count_one):
             nums.append(nums[i])
         size = len(nums)
         
