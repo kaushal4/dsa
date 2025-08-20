@@ -1,39 +1,37 @@
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
-        """
-        Do not return anything, modify head in-place instead.
-        """
-        even = []
-        odd = []
+        def reverse(head: Optional[ListNode]):
+            if head == None:
+                return head
+            prev = None
+
+            while(head != None):
+                temp = head.next
+                head.next = prev
+                prev = head
+                head = temp
+
+            return prev
         
-        head_pointer = ListNode(-1, head)
+        if head == None:
+            return
+        
+        og_head = head
+        fast = head
+        slow = head
+        while(fast != None and fast.next != None):
+            fast = fast.next.next
+            slow = slow.next
+        
+        
+        to_insert = reverse(slow.next)
+        slow.next = None
 
-        count = 0
-        while head != None:
-            even.append(head)
-            head = head.next
-            count += 1
-
-        odd = even[::-1]
-
-        i = 0
-        even_pointer = 0
-        odd_pointer = 0
-        prev = head_pointer
-        while count:
-            pointer = None 
-            if i % 2 == 0:
-                pointer = even[even_pointer]
-                even_pointer += 1
-            else:
-                pointer = odd[odd_pointer]
-                odd_pointer += 1
-            
-            prev.next = pointer
-            pointer.next = None
-            prev = pointer
-
-            i += 1
-            count -= 1
-
-        return head_pointer.next
+        head = og_head
+        while head != None and to_insert != None:
+            temp = head.next
+            temp2 = to_insert.next
+            head.next = to_insert
+            to_insert.next = temp
+            to_insert = temp2
+            head = temp
