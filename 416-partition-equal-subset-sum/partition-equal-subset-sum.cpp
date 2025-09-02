@@ -10,12 +10,17 @@ public:
 
         vector<vector<bool>> dp(desired_sum - min_value + 1, vector<bool> (n+1, false));
 
-        for(int i = min_value; i <= desired_sum; i++) {
-            for(int j = 1; j < n+1; j++) {
-                dp[i-min_value][j] = dp[i-min_value][j] || dp[i-min_value][j-1];
-                if(i - nums[j-1] < 0) continue;
-                if(i - nums[j-1] == 0) dp[i - min_value][j] = true;
-                if(i - nums[j-1] >= min_value) dp[i - min_value][j] = (dp[i - min_value][j] || dp[i - nums[j-1] - min_value][j-1]);
+        for (int j = 1; j < n + 1; j++)
+        {
+            for (int i = min_value; i <= desired_sum; i++)
+            {
+                dp[i - min_value][j] = dp[i - min_value][j] || dp[i - min_value][j - 1];
+                if (i - nums[j - 1] < 0)
+                    continue;
+                if (i - nums[j - 1] == 0)
+                    dp[i - min_value][j] = true;
+                if (i - nums[j - 1] >= min_value)
+                    dp[i - min_value][j] = (dp[i - min_value][j] || dp[i - nums[j - 1] - min_value][j - 1]);
             }
         }
 
