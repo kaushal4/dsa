@@ -43,17 +43,17 @@ public:
 
     void dfs(vector<vector<int>>& graph,unordered_set<int>& visited,vector<int>& p, int node, int parent, int * u, int * v) {
         if(*u != -1) return; 
-        if(visited.contains(node)){
-            *v = node;
-            return;
-        }
         visited.insert(node);
         p[node] = parent;
         for(int child_node: graph[node]){
             if(child_node == parent) continue;
-            dfs(graph, visited,p, child_node, node, u, v);
-            if(*v != -1 && *u == -1){
+            if(visited.contains(child_node)){
                 *u = node;
+                *v = child_node;
+                return;
+            }
+            dfs(graph, visited,p, child_node, node, u, v);
+            if (*u != -1){
                 return;
             }
         }
