@@ -1,7 +1,7 @@
 class Solution {
 public:
     int numDistinct(string s, string t) {
-        using u128 = __uint128_t;
+        using u128 = __uint32_t;
         int n = s.size();
         int m = t.size();
         vector<vector<u128>> dp(n+1, vector<u128>(m+1, 0));
