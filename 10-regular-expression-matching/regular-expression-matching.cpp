@@ -20,9 +20,9 @@ public:
         for(int i = 1; i <= n; i++){
             if(p[i-1] == '*') dp[i][0] = dp[i-2][0];
         }
-        for (int j = 1; j <= m; j++)
+        for (int i = 1; i <= n; i++)
         {
-            for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= m; j++)
             {
                 if (p[i - 1] == '.' || p[i - 1] == s[j - 1])
                 {
@@ -38,7 +38,7 @@ public:
                 }
             }
         }
-        //printDp(dp);
+        printDp(dp);
         return dp[n][m];
     }
 };
