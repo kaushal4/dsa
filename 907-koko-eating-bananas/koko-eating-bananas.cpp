@@ -2,7 +2,7 @@ class Solution {
 public:
     bool canFit(vector<int>& piles,int h, int val){
         if(val < 1) return false;
-        long long cycles_required = 0;
+        double cycles_required = 0;
         for(const auto& pile: piles){
             cycles_required += ceil((double)pile/ val);
         }
