@@ -11,14 +11,14 @@ public:
     dll* head;
     dll* tail;
     int occupancy;
-    map<int, dll*> lru_map;
+    unordered_map<int, dll*> lru_map;
 
     LRUCache(int capacity) {
         this->capacity = capacity;
         occupancy = 0;
         head = nullptr;
         tail = nullptr;
-        lru_map = map<int, dll*>();
+        lru_map = unordered_map<int, dll*>();
     }
 
     void pushLeft(int key, int value){
