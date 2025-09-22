@@ -45,10 +45,12 @@ public:
     vector<int> search(int movie) {
         if(!shopMap.contains(movie)) return vector<int>();
         auto &shopSet = shopMap[movie];
+        int count = 0;
         vector<int> ans;
         for(const mc& item: shopSet){
             ans.push_back(item.shop);
-            if(ans.size() == 5) break;
+            count++;
+            if(count == 5) break;
         }
         return ans;
     }
@@ -72,9 +74,11 @@ public:
     
     vector<vector<int>> report() {
         vector<vector<int>> ans;
+        int count = 0;
         for(const mc& item: rentSet){
             ans.push_back({item.shop, item.movie});
-            if(ans.size() == 5) break;
+            count ++;
+            if(count == 5) break;
         }
         return ans;
     }
