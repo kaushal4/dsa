@@ -5,20 +5,19 @@ public:
         int n = s.size();
         vector<int> sCount(n, 0);
         int TCount = 0;
-        map<int, int> counts;
+        int lCount = 0;
         long long lcCount = 0;
         for(int i = 0; i < n; i++) {
             if(s[i] == 'L'){
-                counts['L'] += 1;
+                lCount += 1;
             } 
             if(s[i] == 'C'){
-                counts['C'] += 1;
-                lcCount += counts['L'];
+                lcCount += lCount;
             } 
             if(s[i] == 'T') {
                 ans = ans + (lcCount);
             }
-            sCount[i] = counts['L'];
+            sCount[i] = lCount;
         }
 
         long long possibleIncrease = 0;
