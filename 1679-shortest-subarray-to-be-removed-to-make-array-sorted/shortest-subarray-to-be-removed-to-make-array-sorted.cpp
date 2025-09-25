@@ -25,13 +25,10 @@ public:
                 break;
             }
         }
-        
-        cout<<"right "<<right<<endl;
 
         int rightTwo = n-1;
 
         while(left >= 0 && rightTwo >= right){
-            cout<<" rightTwo "<<rightTwo<<" left "<<left<<endl;
             if(arr[rightTwo] >= arr[left]){
                 midSize = max(midSize, (left + 1) + (n - rightTwo));
                 rightTwo -= 1;
@@ -41,7 +38,6 @@ public:
         }
 
         int maxAns = max(rightSize, max(leftSize, midSize));
-        cout<<"righSize "<<rightSize<<" leftSize "<<leftSize<<" midSize "<<midSize<<endl;
         return max(n - maxAns, 0);
     }
 };
