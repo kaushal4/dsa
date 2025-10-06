@@ -6,11 +6,9 @@ public:
         unordered_map<int, unordered_set<int>> adj;
         unordered_map<int, int> edge_count;
         unordered_map<int, int> item_pos;
-
         for(int i = 0; i < l; i++){
             item_pos[row[i]] = i/2;
         }
-
         for(int i = 0; i < l; i++){
             int cur_item = row[i];
             int base_node = item_pos[cur_item];
@@ -20,7 +18,6 @@ public:
             } else {
                 parter_node = item_pos[cur_item - 1];
             }
-
             if(base_node == parter_node) continue;
             if(adj[base_node].contains(parter_node)) continue;
             adj[base_node].insert(parter_node);
@@ -28,42 +25,32 @@ public:
             edge_count[base_node]++;
             edge_count[parter_node]++;
         }
-
         int total_edges = 0;
         for(const auto&[item, count]: edge_count){
             total_edges += count;
         }
         total_edges = total_edges/2;
-
-        // Count connected components
-        vector<bool> visited(n, false);
-        int num_components = 0;
-            
-        for(int i = 0; i < n; i++) {
-            if(!visited[i] && edge_count[i] > 0) {  // Has edges
-                num_components++;
-                queue<int> q;
-                q.push(i);
-                visited[i] = true;
-                
-                while(!q.empty()) {
-                    int node = q.front(); q.pop();
-                    for(int neighbor : adj[node]) {
-                        if(!visited[neighbor]) {
-                            visited[neighbor] = true;
-                            q.push(neighbor);
-                        }
+        queue<int> q;
+        vector<int> parent(n, -2);
+        int cycle_count = 0;
+        for(int i = 0; i < n; i++){
+            if(parent[i] != -2) continue;
+            parent[i] = -1;
+            q.push(i);
+            while(!q.empty()){
+                int node = q.front();q.pop();
+                for(int child: adj[node]){
+                    if(parent[child] != -2 && parent[node] != child){
+                        cycle_count++;
+                    } 
+                    if(parent[child] == -2) {
+                        parent[child] = node;
+                        q.push(child);
                     }
                 }
             }
         }
-        
-        // Also count isolated nodes (couples already together)
-        for(int i = 0; i < n; i++) {
-            if(!visited[i]) num_components++;
-        }
-        
-        return n - num_components;
-        
+        cycle_count = cycle_count/2;
+        return total_edges - cycle_count;
     }
 };
