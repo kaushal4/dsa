@@ -8,6 +8,11 @@ public:
         long long base_sum = accumulate(nums.begin(), nums.end(),(long long) 0);
         long long sol = __LONG_LONG_MAX__;
 
+        if(base_sum < target){
+            high += int(target/base_sum) * n;
+            cur_sum += int(target/base_sum) * base_sum;
+        }
+
         while(low < n){
             if(cur_sum < target){
                 if(cur_sum + base_sum <= target){
