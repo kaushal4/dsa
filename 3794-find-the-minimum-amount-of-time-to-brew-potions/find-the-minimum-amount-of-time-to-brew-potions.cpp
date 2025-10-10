@@ -1,7 +1,7 @@
 class Solution {
 public:
     long long minTime(vector<int>& skill, vector<int>& mana) {
-        using uint = __uint128_t;
+        using uint = __uint64_t;
         uint n = skill.size();
         uint m = mana.size();
         vector<uint> end_times(n,0);
