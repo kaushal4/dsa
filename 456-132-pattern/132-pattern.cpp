@@ -2,28 +2,27 @@ class Solution {
 public:
     bool find132pattern(vector<int>& nums) {
         int n = nums.size();
-        vector<int> smallest_num(n, INT_MIN);
-        int smallest_now = nums[0];
-        for(int i = 1; i < n; i++) {
-            if(smallest_now < nums[i]){
-                smallest_num[i] = smallest_now;
-            } else {
-                smallest_now = nums[i];
+        if (n < 3) return false;
+        
+        stack<int> st;
+        int third = INT_MIN;  // The "2" in 132 pattern (nums[k])
+        
+        // Traverse from right to left
+        for (int i = n - 1; i >= 0; i--) {
+            // If current element < third, we found the "1"!
+            if (nums[i] < third) return true;
+            
+            // Pop elements smaller than current from stack
+            // These become candidates for "2" (nums[k])
+            while (!st.empty() && nums[i] > st.top()) {
+                third = st.top();  // Update the best "2" we've found
+                st.pop();
             }
+            
+            // Current element is a candidate for "3" (nums[j])
+            st.push(nums[i]);
         }
-        set<int> numbers_seen;
-        numbers_seen.insert(nums[n-1]);
-        for(int i = n-2; i >= 0; i--){
-            auto right_biggest_ptr = numbers_seen.lower_bound(nums[i]);
-            if(right_biggest_ptr == numbers_seen.begin()) {
-                numbers_seen.insert(nums[i]);
-                continue;
-            }
-            auto prev_ptr = std::prev(right_biggest_ptr);
-            if(smallest_num[i] != INT_MIN && smallest_num[i] < *prev_ptr) 
-                return true;
-            numbers_seen.insert(nums[i]);
-        }
+        
         return false;
     }
 };
